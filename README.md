@@ -9,3 +9,5 @@ New Technology
 SmartCalcs API will be used to calculate the sales tax of each item.
 Demo: https://developers.taxjar.com/demo/
 Website: https://www.taxjar.com/api/ 
+
+Passport.js will be used for Login Authentication 
