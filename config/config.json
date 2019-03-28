@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "",
-    "database": "blogger",
+    "password": "babydyno24",
+    "database": "ecommerce",
     "host": "127.0.0.1",
     "port": 3306,
     "dialect": "mysql"
