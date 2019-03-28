@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var Post = sequelize.define("Post", {
+  var Carts = sequelize.define("Carts", {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -7,17 +7,17 @@ module.exports = function(sequelize, DataTypes) {
         len: [1]
       }
     },
-    price: {
-      type: DataTypes.DECIMAL(10,2),
+    body: {
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: [1]
       }
     },
-    category: {
+    algumacoisa: {
       type: DataTypes.STRING,
       defaultValue: "Personal"
     }
   });
-  return Post;
+  return Carts;
 };

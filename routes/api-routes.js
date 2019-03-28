@@ -51,7 +51,7 @@ module.exports = function(app) {
     // Add sequelize code for creating a post using req.body,
     db.Post.create({
       title: req.body.title,
-      body: req.body.body,
+      price: req.body.price,
       category: req.body.category
       // then return the result using res.json
     }).then(function(post) {
@@ -76,7 +76,7 @@ module.exports = function(app) {
     db.Post.update(
       {
         title: req.body.title,
-        body: req.body.body,
+        price: req.body.price,
         category: req.body.category
       },
       { where: { id: req.body.id } }

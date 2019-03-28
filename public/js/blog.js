@@ -1,14 +1,18 @@
+
+// Dcument Ready Function.
 $(document).ready(function() {
-  // blogContainer holds all of our posts
+  // Holds products display.
   var blogContainer = $(".blog-container");
+  // Holds cart display.
+  var bagContainer = $("#myDIV");
   var postCategorySelect = $("#category");
   // Click events for the edit and delete buttons
   postCategorySelect.on("change", handleCategoryChange);
   var posts;
-
+  // Add to Cart button.
   $(document).on("click", "button.delete", handlePostDelete);
 
-  // This function grabs posts from the database and updates the view
+  // This function grabs products from the database and updates the view
   function getPosts(category) {
     var categoryString = category || "";
     if (categoryString) {
@@ -26,7 +30,7 @@ $(document).ready(function() {
     });
   }
 
-  // This function does an API call to delete posts
+  // REMOVE IT!!!
   function deletePost(id) {
     $.ajax({
       method: "DELETE",
@@ -38,8 +42,7 @@ $(document).ready(function() {
   }
 
 
-
-  // Getting the initial list of posts
+  // Getting the list of products
   getPosts();
   // InitializeRows handles appending all of our constructed post HTML inside container
   function initializeRows() {
@@ -51,7 +54,7 @@ $(document).ready(function() {
     blogContainer.append(postsToAdd);
   }
 
-  // This function constructs a post's HTML
+  // Constructs the HTML
   function createNewRow(post) {
     var newPostCard = $("<div>");
     newPostCard.addClass("card");
@@ -60,36 +63,55 @@ $(document).ready(function() {
       "background-color": "#DCDCDC",
       "height": "300",
       "width": "350",
-      "margin-right": "17px",
-      "margin-bottom": "20px"
+      "margin-right": "20px",
+      "margin-bottom": "20px",
+      "margin-top": "20px",
+      "margin-left": "20px"
     });
+
     var newPostCardHeading = $("<div>");
     newPostCardHeading.addClass("card-header");
+    newPostCardHeading.css({
+      "height": "290",
+      "background-image": "url(/images/cupcake1.jpg)",
+      "background-size": "cover"
+    });
+
     //Adding button
     var deleteBtn = $("<button>");
-    deleteBtn.text("Add to Bag");
+    deleteBtn.text("Add to Cart");
     deleteBtn.addClass("delete btn btn-info btn-sm");
+
     var newPostTitle = $("<h2>");
     newPostTitle.css({
      "font-size": "30px"
     });
-    var newPostCategory = $("<h5>");
-    newPostCategory.text(post.category);
-    newPostCategory.css({
-      float: "left",
-      "margin-top":
-      "-5px", "font-size": "12px"
-    });
-    var newPostCardBody = $("<div>");
-    newPostCardBody.addClass("card-body");
-    var newPostBody = $("<p>");
-    newPostTitle.text(post.title + " ");
-    newPostBody.text(post.body);
-    newPostCardHeading.append(newPostTitle);
+
     //Appending button
     newPostCardHeading.append(deleteBtn);
-    newPostCardHeading.append(newPostCategory);
-    newPostCardBody.append(newPostBody);
+
+    var newPostCardBody = $("<div>");
+    newPostCardBody.addClass("card-body");
+    newPostCardBody.css({
+     "padding-top": "20px",
+     "background-color" :"white"
+    });
+
+    var newPostBodyPrice = $("<p>");
+    newPostBodyPrice.css({
+     float: "right",
+     "font-size": "25px"
+    });
+    newPostBodyPrice.text("$ " + post.price);
+    newPostCardBody.append(newPostBodyPrice);
+
+   var newPostBodyTitle = $("<p>");
+    newPostBodyTitle.css({
+     "font-size": "20px"
+    });
+    newPostBodyTitle.text(post.title + " ");
+    newPostCardBody.append(newPostBodyTitle);    
+
     newPostCard.append(newPostCardHeading);
     newPostCard.append(newPostCardBody);
     newPostCard.data("post", post);
@@ -99,6 +121,7 @@ $(document).ready(function() {
 
 
  
+
   var bag = [];
   var bagid = [];
   //Getting product id
@@ -129,21 +152,58 @@ $(document).ready(function() {
   }
 
     bagid = bagid.filter(onlyUnique);
-    console.log(bagid);
-    $("#example").text(bagid);
+    $("#example").text('('+bagid.length+") Items in your Cart" );
+
+
+    bagContainer.empty();
+    var postsToAdd = [];
+    for (var i = 0; i < bagid.length; i++) {
+      console.log(posts[(bagid[i]-1)]);
+      postsToAdd.push(createNewRow(posts[(bagid[i]-1)]));
+    }
+    bagContainer.append(postsToAdd);
+
+
+   // This function constructs a post's HTML
+  function createNewRow(post) {
+    var newPostCard = $("<div>");
+    newPostCard.addClass("card-cart");
+    newPostCard.css({
+      "height": "35px",
+      "width": "300px",
+    });
+
+    var newPostTitle = $("<h2>");
+    newPostTitle.css({
+     "font-size": "30px"
+    });
+
+    var newPostCardBody = $("<div>");
+    newPostCardBody.addClass("card-body-cart");
+
+    var newPostBodyPrice = $("<p>");
+    newPostBodyPrice.css({
+     "float": "right",
+     "font-size": "15px"
+    });
+    newPostBodyPrice.text("$ " + post.price);
+    newPostCardBody.append(newPostBodyPrice);
+
+   var newPostBodyTitle = $("<p>");
+    newPostBodyTitle.css({
+     "font-size": "15px"
+    });
+    newPostBodyTitle.text(post.title);
+    newPostCardBody.append(newPostBodyTitle);    
+
+    newPostCard.append(newPostCardBody);
+    newPostCard.data("post", post);
+    return newPostCard;
+      }
+
     });
   }
 
-
-
-  // This function displays a message when there are no posts
-  function displayEmpty() {
-    blogContainer.empty();
-    var messageH2 = $("<h2>");
-    messageH2.css({ "text-align": "center", "margin-top": "50px" });
-    messageH2.html("Sorry, no items in this category.");
-    blogContainer.append(messageH2);
-  }
 
   // This function handles reloading new posts when the category changes
   function handleCategoryChange() {
@@ -152,3 +212,14 @@ $(document).ready(function() {
   }
 
 });
+
+
+  // Function uses Shopping Card button to open Cart DIV.
+  function myFunction() {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }

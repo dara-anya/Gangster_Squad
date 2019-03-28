@@ -1,5 +1,5 @@
 button.submit {
-  float: right;
+  float: right; 
 }
 
 form#cms {
@@ -15,3 +15,36 @@ button.edit {
   float: right;
   margin: 5px;
 }
+
+
+li a {
+  color: white;
+  background-color: black;
+  font-size: 17px;
+}
+
+#blackrow {
+  background-color: black;
+  padding-top: 10px;
+}
+
+#carousel {
+	margin-bottom: 50px;
+}
+
+#myDIV {
+	height: 700px;
+  margin-top: 40px;
+}
+
+
+
+
+.card:hover { 
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+  transition-duration: 0.6s;
+}
+
+
