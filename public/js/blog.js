@@ -68,13 +68,13 @@ $(document).ready(function() {
       "margin-top": "20px",
       "margin-left": "20px"
     });
-
+    ///images/cupcake2.jpg
     var newPostCardHeading = $("<div>");
     newPostCardHeading.addClass("card-header");
     newPostCardHeading.css({
       "height": "290",
-      "background-image": "url(/images/cupcake1.jpg)",
-      "background-size": "cover"
+      "background-image": "url(" + post.category +  ")",
+      "background-size": "contain",
     });
 
     //Adding button
