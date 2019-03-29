@@ -32,13 +32,15 @@ li a {
 	margin-bottom: 50px;
 }
 
-#myDIV {
+#cartContainer {
 	height: 700px;
   margin-top: 40px;
 }
 
 
-
+#quantity-display{
+  padding-top: 5px; 
+}
 
 .card:hover { 
   -webkit-transform: scale(1.05);

@@ -46,42 +46,4 @@ module.exports = function(app) {
       });
   });
 
-  // POST route for saving a new post
-  app.post("/api/posts", function(req, res) {
-    // Add sequelize code for creating a post using req.body,
-    db.Post.create({
-      title: req.body.title,
-      price: req.body.price,
-      category: req.body.category
-      // then return the result using res.json
-    }).then(function(post) {
-      res.json({ id: post.id });
-    });
-  });
-
-  // DELETE route for deleting posts
-  app.delete("/api/posts/:id", function(req, res) {
-    // Add sequelize code to delete a post where the id is equal to req.params.id,
-    db.Post.destroy({ where: { id: req.params.id } })
-      // then return the result to the user using res.json
-      .then(function(post) {
-        res.json(post);
-      });
-  });
-
-  // PUT route for updating posts
-  app.put("/api/posts", function(req, res) {
-    // Add code here to update a post using the values in req.body, where the id is equal to
-    // req.body.id and return the result to the user using res.json
-    db.Post.update(
-      {
-        title: req.body.title,
-        price: req.body.price,
-        category: req.body.category
-      },
-      { where: { id: req.body.id } }
-    ).then(function(post) {
-      res.json(post);
-    });
-  });
 };
