@@ -1,69 +1,42 @@
 
 // Dcument Ready Function.
 $(document).ready(function() {
-  // Holds products display.
-  var blogContainer = $(".blog-container");
-  // Holds cart display.
-  var bagContainer = $("#myDIV");
-  var postCategorySelect = $("#category");
-  // Click events for the edit and delete buttons
-  postCategorySelect.on("change", handleCategoryChange);
-  var posts;
-  // Add to Cart button.
-  $(document).on("click", "button.delete", handlePostDelete);
 
-  // This function grabs products from the database and updates the view
-  function getPosts(category) {
-    var categoryString = category || "";
-    if (categoryString) {
-      categoryString = "/category/" + categoryString;
-    }
-    $.get("/api/posts" + categoryString, function(data) {
-      console.log("Posts", data);
+  // Holding products display.
+  var productsContainer = $(".products-container");
+
+  // Holding cart display.
+  var cartContainer = $("#cartContainer");
+
+  var posts;
+
+  // Adding to Cart button.
+  $(document).on("click", "button.delete", addToCart);
+  // This function gets the products from database
+  function getPosts() {    
+    $.get("/api/posts", function(data) {
       posts = data;
-      if (!posts || !posts.length) {
-        displayEmpty();
-      }
-      else {
-        initializeRows();
-      }
+      initializeRows();
     });
   }
-
-  // REMOVE IT!!!
-  function deletePost(id) {
-    $.ajax({
-      method: "DELETE",
-      url: "/api/posts/" + id
-    })
-      .then(function() {
-        getPosts(postCategorySelect.val());
-      });
-  }
-
-
-
-
-
-  // Getting the list of products
   getPosts();
-  // InitializeRows handles appending all of our constructed post HTML inside container
+
+  // Appending all products HTML inside container.
   function initializeRows() {
-    blogContainer.empty();
+    productsContainer.empty();
     var postsToAdd = [];
     for (var i = 0; i < posts.length; i++) {
       postsToAdd.push(createNewRow(posts[i]));
     }
-    blogContainer.append(postsToAdd);
+    productsContainer.append(postsToAdd);
   }
 
-  // Constructs the HTML
+  // Constructing the HTML
   function createNewRow(post) {
     var newPostCard = $("<div>");
     newPostCard.addClass("card");
     newPostCard.css({
       float: "left",
-      "background-color": "#DCDCDC",
       "height": "300",
       "width": "350",
       "margin-right": "20px",
@@ -71,7 +44,7 @@ $(document).ready(function() {
       "margin-top": "20px",
       "margin-left": "20px"
     });
-
+  // Constructing heading.
     var newPostCardHeading = $("<div>");
     newPostCardHeading.addClass("card-header");
     newPostCardHeading.css({
@@ -80,26 +53,32 @@ $(document).ready(function() {
       "background-size": "cover"
     });
 
-    //Adding button
+    //Adding "Add to Cart" button.
     var deleteBtn = $("<button>");
     deleteBtn.text("Add to Cart");
     deleteBtn.addClass("delete btn btn-info btn-sm");
-
-    var newPostTitle = $("<h2>");
-    newPostTitle.css({
-     "font-size": "30px"
-    });
-
-    //Appending button
+    //Appending "Add to Cart" button.
     newPostCardHeading.append(deleteBtn);
-
+  // Constructing body.
     var newPostCardBody = $("<div>");
     newPostCardBody.addClass("card-body");
     newPostCardBody.css({
      "padding-top": "20px",
      "background-color" :"white"
     });
-
+    //Adding product name.
+    var newPostTitle = $("<h2>");
+    newPostTitle.css({
+     "font-size": "30px"
+    });
+   var newPostBodyTitle = $("<p>");
+    newPostBodyTitle.css({
+     "font-size": "20px"
+    });
+    newPostBodyTitle.text(post.title + " ");
+    //Appending product name.
+    newPostCardBody.append(newPostBodyTitle); 
+    //Adding price.
     var newPostBodyPrice = $("<p>");
     newPostBodyPrice.css({
      float: "right",
@@ -108,13 +87,7 @@ $(document).ready(function() {
     newPostBodyPrice.text("$ " + post.price);
     newPostCardBody.append(newPostBodyPrice);
 
-   var newPostBodyTitle = $("<p>");
-    newPostBodyTitle.css({
-     "font-size": "20px"
-    });
-    newPostBodyTitle.text(post.title + " ");
-    newPostCardBody.append(newPostBodyTitle);    
-
+    //Appending and posting on container.
     newPostCard.append(newPostCardHeading);
     newPostCard.append(newPostCardBody);
     newPostCard.data("post", post);
@@ -125,25 +98,22 @@ $(document).ready(function() {
 
 
 
- 
-
+  //Declaring variables that will hold cart elements.
   var bag = [];
   var bagid = [];
   //Getting product id
-  function handlePostDelete() {
+  function addToCart() {
     var currentPost = $(this)
       .parent()
       .parent()
       .data("post");
     //Adding ids  
     bag += (currentPost.id);
-
+    //Transforming ids in array.
     bag = Array.from(bag);
-
-
+    // Getting products from database.
     $.get("/api/posts", function(data) {
-      posts = data;
-
+    //Matching products x bag and pushing to bagid.
     for (var i = 0; i < bag.length; i++) {
         for (var j = 0; j < posts.length; j++) {
             if (bag[i] == posts[j].id) {
@@ -151,28 +121,23 @@ $(document).ready(function() {
             }
         }
     }
-
+    //Uninique value function.
     function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
   }
-
+    //Getting only unique values.
     bagid = bagid.filter(onlyUnique);
-    $("#example").text('('+bagid.length+") Items in your Cart" );
-
-
-    bagContainer.empty();
+    //Adding quantity of items.
+    $("#quantity-display").text('('+bagid.length+") Items in your Cart" );
+    cartContainer.empty();
     var postsToAdd = [];
+    //Getting products from bagid.
     for (var i = 0; i < bagid.length; i++) {
-      console.log(posts[(bagid[i]-1)]);
       postsToAdd.push(createNewRow(posts[(bagid[i]-1)]));
     }
-    bagContainer.append(postsToAdd);
+    cartContainer.append(postsToAdd);
 
-
-
-
-
-   // This function constructs a post's HTML
+   // This function constructs cart HTML.
   function createNewRow(post) {
     var newPostCardBody = $("<div>");
     newPostCardBody.addClass("row");
@@ -182,8 +147,6 @@ $(document).ready(function() {
      "margin-left": "50px",
      "margin-top": "2px"
     });
-
-
     //Creating title
     var newPostBodyTitle = $("<div>");
     newPostBodyTitle.addClass("col-md-5");
@@ -191,19 +154,11 @@ $(document).ready(function() {
     // "font-size": "15px"
     //});
     newPostBodyTitle.text(post.title);
-
-
     //Creating price
     var newPostBodyPrice = $("<div>");
     newPostBodyPrice.addClass("price col-3");
     newPostBodyPrice.text("$ " + post.price);
-
-
-
-
-
     //Creating quantity number.
-
     var qtNum = $("<input type='text' style='text-align:center;' name='qtt' value=1>");
     qtNum.text(post.price);
     qtNum.css({
@@ -213,71 +168,31 @@ $(document).ready(function() {
      "width": "30px"
     });
 
-
     //Creating button
-    //Adding button
     var sumBtn = $("<button>");
     sumBtn.text("Delete");
     sumBtn.addClass("btn btn-danger btn-xs");
     sumBtn.css({
      "height": "25px"
     });
-
-    
     //Appending title
     newPostCardBody.append(newPostBodyTitle);    
-
     //Appending price
     newPostCardBody.append(newPostBodyPrice);
-
-
-
-
-
+    //Appending quantity
     newPostCardBody.append(qtNum);
-
-
    //Appending - button
     newPostCardBody.append(sumBtn);
-
     newPostCardBody.data("post", post);
     return newPostCardBody;
       }
-
-
     });
   }
-
-
-// Click
-$(document).on("click", ".sub", function(event){
-  event.preventDefault();
-  
-  // Gets the State
-
-  valor = ($(this.value));
-
-  console.log(valor);
-
-})
-
-
-//jQuery.fn.init(valor)
-
-
-
-  // This function handles reloading new posts when the category changes
-  function handleCategoryChange() {
-    var newPostCategory = $(this).val();
-    getPosts(newPostCategory);
-  }
-
 });
 
-
-  // Function uses Shopping Card button to open Cart DIV.
-  function myFunction() {
-    var x = document.getElementById("myDIV");
+  // Function uses Shopping Cart button to open Cart DIV.
+  function showCart() {
+    var x = document.getElementById("cartContainer");
     if (x.style.display === "none") {
       x.style.display = "block";
     } else {
