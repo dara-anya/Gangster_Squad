@@ -42,6 +42,9 @@ $(document).ready(function() {
   }
 
 
+
+
+
   // Getting the list of products
   getPosts();
   // InitializeRows handles appending all of our constructed post HTML inside container
@@ -120,6 +123,8 @@ $(document).ready(function() {
 
 
 
+
+
  
 
   var bag = [];
@@ -164,45 +169,101 @@ $(document).ready(function() {
     bagContainer.append(postsToAdd);
 
 
+
+
+
    // This function constructs a post's HTML
   function createNewRow(post) {
-    var newPostCard = $("<div>");
-    newPostCard.addClass("card-cart");
-    newPostCard.css({
-      "height": "35px",
-      "width": "300px",
-    });
-
-    var newPostTitle = $("<h2>");
-    newPostTitle.css({
-     "font-size": "30px"
-    });
-
     var newPostCardBody = $("<div>");
-    newPostCardBody.addClass("card-body-cart");
-
-    var newPostBodyPrice = $("<p>");
-    newPostBodyPrice.css({
-     "float": "right",
-     "font-size": "15px"
+    newPostCardBody.addClass("row");
+    newPostCardBody.css({
+     "width": "500px",
+     "margin-bottom": "10px",
+     "margin-left": "50px",
+     "margin-top": "2px"
     });
-    newPostBodyPrice.text("$ " + post.price);
-    newPostCardBody.append(newPostBodyPrice);
 
-   var newPostBodyTitle = $("<p>");
-    newPostBodyTitle.css({
-     "font-size": "15px"
-    });
+
+    //Creating title
+    var newPostBodyTitle = $("<div>");
+    newPostBodyTitle.addClass("col-md-5");
+    //newPostBodyTitle.css({
+    // "font-size": "15px"
+    //});
     newPostBodyTitle.text(post.title);
+
+
+    //Creating price
+    var newPostBodyPrice = $("<div>");
+    newPostBodyPrice.addClass("price col-3");
+    newPostBodyPrice.text("$ " + post.price);
+
+
+
+
+
+    //Creating quantity number.
+
+    var qtNum = $("<input type='text' style='text-align:center;' name='qtt' value=1>");
+    qtNum.text(post.price);
+    qtNum.css({
+     "margin-left": "3px",
+     "margin-right": "25px",
+     "height": "25px",
+     "width": "30px"
+    });
+
+
+    //Creating button
+    //Adding button
+    var sumBtn = $("<button>");
+    sumBtn.text("Delete");
+    sumBtn.addClass("btn btn-danger btn-xs");
+    sumBtn.css({
+     "height": "25px"
+    });
+
+    
+    //Appending title
     newPostCardBody.append(newPostBodyTitle);    
 
-    newPostCard.append(newPostCardBody);
-    newPostCard.data("post", post);
-    return newPostCard;
+    //Appending price
+    newPostCardBody.append(newPostBodyPrice);
+
+
+
+
+
+    newPostCardBody.append(qtNum);
+
+
+   //Appending - button
+    newPostCardBody.append(sumBtn);
+
+    newPostCardBody.data("post", post);
+    return newPostCardBody;
       }
+
 
     });
   }
+
+
+// Click
+$(document).on("click", ".sub", function(event){
+  event.preventDefault();
+  
+  // Gets the State
+
+  valor = ($(this.value));
+
+  console.log(valor);
+
+})
+
+
+//jQuery.fn.init(valor)
+
 
 
   // This function handles reloading new posts when the category changes
