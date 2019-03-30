@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>E-commerce Page</title>
+
+  <!-- FavIcon -->
+  <link rel='icon' href='images/favIcon.jpg' type='image/x-icon'/>
+
+  <!-- Latest compiled and minified CSS & JS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/flatly/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" media="screen" title="no title">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+</head>
+
+<body>
+
+  <!-- Menu -->
+    <div id="blackrow" class="row mt-6">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-3">
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <!-- Image -->
+  <div id="carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="d-block w-100" src="/images/cupcake1.jpg" alt="First slide">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mt-4">
+      <div class="col-md-4">
+      </div>
+  <!-- Quantity Display -->      
+      <div class="col-md-2">
+        <div id="quantity-display">
+        </div>
+      </div>
+  <!-- Shopping Cart button Display -->  
+      <div class="col-md-2">
+        <button type="button" class="btn btn-default btn-sm" onclick="showCart()">
+          <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart
+        </button>
+      </div>
+
+    <div class="row">
+      <div>
+
+  <!-- Cart Container -->   
+      <div id="cartContainer">
+      </div>
+
+
+      <div class="col-md-2">
+      </div> 
+    </div>
+
+  <!-- Products Container -->      
+    <div class="row">
+      <div class="col-md-12 products-container">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Custom Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment.min.js" type="text/javascript"></script>
+  <script src="js/ecommerce.js" type="text/javascript"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+button.submit {
+  float: right; 
+}
+
+form#cms {
+  margin-top: 50px;
+}
+
+#cms textarea {
+  resize: none;
+}
+
+.card-header button.delete,
+button.edit {
+  float: right;
+  margin: 5px;
+}
+
+
+li a {
+  color: white;
+  background-color: black;
+  font-size: 17px;
+}
+
+#blackrow {
+  background-color: black;
+  padding-top: 10px;
+}
+
+#carousel {
+	margin-bottom: 50px;
+}
+
+#cartContainer {
+	height: 700px;
+  margin-top: 40px;
+}
+
+
+#quantity-display{
+  padding-top: 5px; 
+}
+
+.card:hover { 
+  -webkit-transform: scale(1.05);
+  -ms-transform: scale(1.05);
+  transform: scale(1.05);
+  transition-duration: 0.6s;
+}
+
+
