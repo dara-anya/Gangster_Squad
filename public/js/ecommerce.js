@@ -8,34 +8,34 @@ $(document).ready(function() {
   // Holding cart display.
   var cartContainer = $("#cartContainer");
 
-  var posts;
+  var products;
 
   // Adding to Cart button.
   $(document).on("click", "button.delete", addToCart);
   // This function gets the products from database
-  function getPosts() {    
-    $.get("/api/posts", function(data) {
-      posts = data;
+  function getProducts() {    
+    $.get("/api/products", function(data) {
+      products = data;
       initializeRows();
     });
   }
-  getPosts();
+  getProducts();
 
   // Appending all products HTML inside container.
   function initializeRows() {
     productsContainer.empty();
-    var postsToAdd = [];
-    for (var i = 0; i < posts.length; i++) {
-      postsToAdd.push(createNewRow(posts[i]));
+    var productsToAdd = [];
+    for (var i = 0; i < products.length; i++) {
+      productsToAdd.push(createNewRow(products[i]));
     }
-    productsContainer.append(postsToAdd);
+    productsContainer.append(productsToAdd);
   }
 
   // Constructing the HTML
-  function createNewRow(post) {
-    var newPostCard = $("<div>");
-    newPostCard.addClass("card");
-    newPostCard.css({
+  function createNewRow(product) {
+    var newProductCard = $("<div>");
+    newProductCard.addClass("card");
+    newProductCard.css({
       float: "left",
       "height": "300",
       "width": "350",
@@ -45,9 +45,9 @@ $(document).ready(function() {
       "margin-left": "20px"
     });
   // Constructing heading.
-    var newPostCardHeading = $("<div>");
-    newPostCardHeading.addClass("card-header");
-    newPostCardHeading.css({
+    var newProductCardHeading = $("<div>");
+    newProductCardHeading.addClass("card-header");
+    newProductCardHeading.css({
       "height": "290",
       "background-image": "url(" + post.category +  ")",
       "background-size": "contain",
@@ -58,40 +58,40 @@ $(document).ready(function() {
     deleteBtn.text("Add to Cart");
     deleteBtn.addClass("delete btn btn-info btn-sm");
     //Appending "Add to Cart" button.
-    newPostCardHeading.append(deleteBtn);
+    newProductCardHeading.append(deleteBtn);
   // Constructing body.
-    var newPostCardBody = $("<div>");
-    newPostCardBody.addClass("card-body");
-    newPostCardBody.css({
+    var newProductCardBody = $("<div>");
+    newProductCardBody.addClass("card-body");
+    newProductCardBody.css({
      "padding-top": "20px",
      "background-color" :"white"
     });
     //Adding product name.
-    var newPostTitle = $("<h2>");
-    newPostTitle.css({
+    var newProductTitle = $("<h2>");
+    newProductTitle.css({
      "font-size": "30px"
     });
-   var newPostBodyTitle = $("<p>");
-    newPostBodyTitle.css({
+   var newProductBodyTitle = $("<p>");
+    newProductBodyTitle.css({
      "font-size": "20px"
     });
-    newPostBodyTitle.text(post.title + " ");
+    newProductBodyTitle.text(product.title + " ");
     //Appending product name.
-    newPostCardBody.append(newPostBodyTitle); 
+    newProductCardBody.append(newProductBodyTitle); 
     //Adding price.
-    var newPostBodyPrice = $("<p>");
-    newPostBodyPrice.css({
+    var newProductBodyPrice = $("<p>");
+    newProductBodyPrice.css({
      float: "right",
      "font-size": "25px"
     });
-    newPostBodyPrice.text("$ " + post.price);
-    newPostCardBody.append(newPostBodyPrice);
+    newProductBodyPrice.text("$ " + product.price);
+    newProductCardBody.append(newProductBodyPrice);
 
     //Appending and posting on container.
-    newPostCard.append(newPostCardHeading);
-    newPostCard.append(newPostCardBody);
-    newPostCard.data("post", post);
-    return newPostCard;
+    newProductCard.append(newProductCardHeading);
+    newProductCard.append(newProductCardBody);
+    newProductCard.data("product", product);
+    return newProductCard;
   }
 
 
@@ -103,21 +103,21 @@ $(document).ready(function() {
   var bagid = [];
   //Getting product id
   function addToCart() {
-    var currentPost = $(this)
+    var currentProduct = $(this)
       .parent()
       .parent()
-      .data("post");
+      .data("product");
     //Adding ids  
-    bag += (currentPost.id);
+    bag += (currentProduct.id);
     //Transforming ids in array.
     bag = Array.from(bag);
     // Getting products from database.
-    $.get("/api/posts", function(data) {
+    $.get("/api/products", function(data) {
     //Matching products x bag and pushing to bagid.
     for (var i = 0; i < bag.length; i++) {
-        for (var j = 0; j < posts.length; j++) {
-            if (bag[i] == posts[j].id) {
-              bagid.push(posts[j].id);
+        for (var j = 0; j < products.length; j++) {
+            if (bag[i] == products[j].id) {
+              bagid.push(products[j].id);
             }
         }
     }
@@ -130,37 +130,34 @@ $(document).ready(function() {
     //Adding quantity of items.
     $("#quantity-display").text('('+bagid.length+") Items in your Cart" );
     cartContainer.empty();
-    var postsToAdd = [];
+    var productsToAdd = [];
     //Getting products from bagid.
     for (var i = 0; i < bagid.length; i++) {
-      postsToAdd.push(createNewRow(posts[(bagid[i]-1)]));
+      productsToAdd.push(createNewRow(products[(bagid[i]-1)]));
     }
-    cartContainer.append(postsToAdd);
+    cartContainer.append(productsToAdd);
 
    // This function constructs cart HTML.
-  function createNewRow(post) {
-    var newPostCardBody = $("<div>");
-    newPostCardBody.addClass("row");
-    newPostCardBody.css({
+  function createNewRow(product) {
+    var newProductCardBody = $("<div>");
+    newProductCardBody.addClass("row");
+    newProductCardBody.css({
      "width": "500px",
      "margin-bottom": "10px",
      "margin-left": "50px",
      "margin-top": "2px"
     });
     //Creating title
-    var newPostBodyTitle = $("<div>");
-    newPostBodyTitle.addClass("col-md-5");
-    //newPostBodyTitle.css({
-    // "font-size": "15px"
-    //});
-    newPostBodyTitle.text(post.title);
+    var newProductBodyTitle = $("<div>");
+    newProductBodyTitle.addClass("col-md-5");
+    newProductBodyTitle.text(product.title);
     //Creating price
-    var newPostBodyPrice = $("<div>");
-    newPostBodyPrice.addClass("price col-3");
-    newPostBodyPrice.text("$ " + post.price);
+    var newProductBodyPrice = $("<div>");
+    newProductBodyPrice.addClass("price col-3");
+    newProductBodyPrice.text("$ " + product.price);
     //Creating quantity number.
     var qtNum = $("<input type='text' style='text-align:center;' name='qtt' value=1>");
-    qtNum.text(post.price);
+    qtNum.text(product.price);
     qtNum.css({
      "margin-left": "3px",
      "margin-right": "25px",
@@ -176,15 +173,15 @@ $(document).ready(function() {
      "height": "25px"
     });
     //Appending title
-    newPostCardBody.append(newPostBodyTitle);    
+    newProductCardBody.append(newProductBodyTitle);    
     //Appending price
-    newPostCardBody.append(newPostBodyPrice);
+    newProductCardBody.append(newProductBodyPrice);
     //Appending quantity
-    newPostCardBody.append(qtNum);
+    newProductCardBody.append(qtNum);
    //Appending - button
-    newPostCardBody.append(sumBtn);
-    newPostCardBody.data("post", post);
-    return newPostCardBody;
+    newProductCardBody.append(sumBtn);
+    newProductCardBody.data("product", product);
+    return newProductCardBody;
       }
     });
   }
