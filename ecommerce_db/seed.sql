@@ -1,7 +1,7 @@
 USE ecommerce;
 
 
-INSERT INTO Posts (title, price, category)
+INSERT INTO Products (title, price, category)
 VALUES 
 	("Lemon Raspberry", 5.20, "/images/Lemon-Raspberry.jpg"), 
 	("Mocha Chocolate", 3.45, "/images/Mocha-Chocolate.jpg"), 
