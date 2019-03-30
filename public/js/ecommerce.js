@@ -194,10 +194,11 @@ $.get("/api/carts", function(data) {
 });
 
 
+$("#cartContainer").css("display", "none");
 
   // Function uses Shopping Cart button to open Cart DIV.
   function showCart() {
-    //$("#cartContainer").css("display", "none");
+    
     var x = document.getElementById("cartContainer");
     if (x.style.display === "none") {
       x.style.display = "block";
