@@ -46,4 +46,16 @@ module.exports = function(app) {
       });
   });
 
+
+
+
+  app.get("/api/carts", function(req, res) {
+    console.log("KKKKKK")
+    db.Carts.findAll({}).then(function(carts) {
+      res.json(carts);
+    });
+  });
+
+
+
 };

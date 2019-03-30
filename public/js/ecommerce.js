@@ -97,7 +97,7 @@ $(document).ready(function() {
 
 
 
-
+  //This function creates the cart.
   //Declaring variables that will hold cart elements.
   var bag = [];
   var bagid = [];
@@ -187,6 +187,14 @@ $(document).ready(function() {
   }
 });
 
+
+$.get("/api/carts", function(data) {
+    console.log(data);
+
+});
+
+
+
   // Function uses Shopping Cart button to open Cart DIV.
   function showCart() {
     var x = document.getElementById("cartContainer");
@@ -196,3 +204,6 @@ $(document).ready(function() {
       x.style.display = "none";
     }
   }
+
+
+
