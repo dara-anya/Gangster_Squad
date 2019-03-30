@@ -49,7 +49,7 @@ $(document).ready(function() {
     newProductCardHeading.addClass("card-header");
     newProductCardHeading.css({
       "height": "290",
-      "background-image": "url(" + post.category +  ")",
+      "background-image": "url(" + product.category +  ")",
       "background-size": "contain",
     });
 
