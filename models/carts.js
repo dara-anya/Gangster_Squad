@@ -5,6 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     sku: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      unique: true,
       validate: {
         len: [1]
       }
