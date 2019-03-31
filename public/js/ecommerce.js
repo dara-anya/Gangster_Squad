@@ -2,25 +2,34 @@
 // Dcument Ready Function.
 $(document).ready(function() {
 
+
   // Holding products display.
   var productsContainer = $(".products-container");
 
   // Holding cart display.
   var cartContainer = $("#cartContainer");
 
+  var products;
 
 
 
-  // Adding to Cart button.
+//--------------------------------------------------------------
+// ON CLICK/CHANGE           
+//--------------------------------------------------------------
+  // Adding to cart button.
   $(document).on("click", "button.addcart", addToCart);
-  
-
+  // Loading to cart.
+  $(document).on("click", "button.addcart", getProducts);
+  // Deleting cart item button.
   $(document).on("click", "button.delete", cartDelete);
-
-
-
+  // Changing item quantity in cart.
   $(document).on('change', 'input', changeQuantity);
 
+
+
+//--------------------------------------------------------------------
+// BUILDING PRODUCTS DISPLAY -> Getting data from Products database         
+//--------------------------------------------------------------------
   // This function gets the products from database
   function getProducts() {    
     $.get("/api/products", function(data) {
@@ -29,8 +38,6 @@ $(document).ready(function() {
     });
   }
   getProducts();
-
-
   // Appending all products HTML inside container.
   function initializeRows() {
     productsContainer.empty();
@@ -40,7 +47,6 @@ $(document).ready(function() {
     }
     productsContainer.append(productsToAdd);
   }
-
   // Constructing the HTML
   function createNewRow(product) {
     var newProductCard = $("<div>");
@@ -62,7 +68,6 @@ $(document).ready(function() {
       "background-image": "url(" + product.category +  ")",
       "background-size": "contain",
     });
-
     //Adding "Add to Cart" button.
     var deleteBtn = $("<button>");
     deleteBtn.text("Add to Cart");
@@ -96,7 +101,6 @@ $(document).ready(function() {
     });
     newProductBodyPrice.text("$ " + product.price);
     newProductCardBody.append(newProductBodyPrice);
-
     //Appending and posting on container.
     newProductCard.append(newProductCardHeading);
     newProductCard.append(newProductCardBody);
@@ -106,29 +110,21 @@ $(document).ready(function() {
 
 
 
+//--------------------------------------------------------------------
+// POST FUNCTION -> Adding products to Cart database.           
+//--------------------------------------------------------------------
 
-
-  //This function creates the cart.
-  //Declaring variables that will hold cart elements.
-  
-//POST --------------------------------------------------------------------------
-
-  //Getting product id
   function addToCart() {
     var currentProduct = $(this)
       .parent()
       .parent()
       .data("product");
-    //Adding ids  
-
     var newPost = {
       sku: currentProduct.id,
       product: currentProduct.title,
       price: currentProduct.price
     };
-
       submitPost(newPost);
-
       function submitPost(Post) {
         $.post("/api/carts/", Post, function() {
         });
@@ -138,6 +134,11 @@ $(document).ready(function() {
   }
 
 
+
+//--------------------------------------------------------------------
+// DELETE FUNCTION -> Deleting products from cart database.           
+//--------------------------------------------------------------------
+
   function cartDelete() {
     var currentCart = $(this)
       .parent()
@@ -145,15 +146,11 @@ $(document).ready(function() {
     deleteCart(currentCart.id);
   }
 
-
-
-  // This function does an API call to delete posts
   function deleteCart(id) {
     $.ajax({
       method: "DELETE",
       url: "/api/carts/" + id
     })
-
       .then(function() {
         getCarts();
         totalUpdate();
@@ -161,6 +158,10 @@ $(document).ready(function() {
   }
 
 
+
+//--------------------------------------------------------------------
+// PUT FUNCTION -> Changing quantity in cart database.           
+//--------------------------------------------------------------------
 
   function changeQuantity() {
     newquantity = (this.value);
@@ -184,44 +185,33 @@ $(document).ready(function() {
         getCarts();
         totalUpdate();
       });
-
   }
 
 
 
-  //Total Value and Total quantity Function
+//--------------------------------------------------------------------
+// CALCULATING TOTAL VALUE AND TOTAL QUANTITY IN CART.        
+//--------------------------------------------------------------------
 
- 
   function totalUpdate() {    
     $.get("/api/carts", function(data) {
       cartinfo = data;
     var totalcart = 0; 
     for (var i = 0; i < cartinfo.length; i++) {
       totalcart += (cartinfo[i].price*cartinfo[i].quantity);
-
-      
     }
     console.log(totalcart.toFixed(2));
 
     $("#quantity-display").text('('+cartinfo.length+")  Total: $"+ totalcart.toFixed(2));
     });
   }
-
-
 totalUpdate();
 
 
 
-
-
-
-
-
-//----------------------------------------------------------------------------------
-
-
-
-
+//--------------------------------------------------------------------
+// BUILDING CART -> Getting products from Cart database and building html.        
+//--------------------------------------------------------------------
 
   function getCarts() {    
     $.get("/api/carts", function(data) {
@@ -230,7 +220,6 @@ totalUpdate();
     });
   }
   getCarts();
-
   // Appending all products HTML inside container.
   function initializeRow() {
     cartContainer.empty();
@@ -240,8 +229,6 @@ totalUpdate();
     }
     cartContainer.append(productsToAdd);
   }
-
-
    // This function constructs cart HTML.
   function createNewRowCart(product) {
     var newProductCardBody = $("<div>");
@@ -256,7 +243,6 @@ totalUpdate();
     var newProductBodyTitle = $("<div>");
     newProductBodyTitle.addClass("col-md-5");
     newProductBodyTitle.text(product.product);
-
     //Creating price
     var newProductBodyPrice = $("<div>");
     newProductBodyPrice.addClass("price col-3");
@@ -270,7 +256,6 @@ totalUpdate();
      "height": "25px",
      "width": "30px"
     });
-
     //Creating button
     var sumBtn = $("<button value="+product.id+">");
     sumBtn.text("Delete");
@@ -293,9 +278,9 @@ totalUpdate();
 
 
 
-
-
-  // Function uses Shopping Cart button to open Cart DIV.
+//--------------------------------------------------------------------
+// OPEN CART DIV -> Shopping Cart button.         
+//--------------------------------------------------------------------
   function showCart() {
     //$("#cartContainer").css("display", "none");
     var x = document.getElementById("cartContainer");

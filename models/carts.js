@@ -29,7 +29,8 @@ module.exports = function(sequelize, DataTypes) {
 
     quantity: {
       type: DataTypes.INTEGER,
-      defaultValue: 1
+      defaultValue: 1,
+      validate: { min: 1, max: 999 }
     },
 
   });
