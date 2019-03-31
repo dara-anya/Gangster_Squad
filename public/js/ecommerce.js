@@ -8,7 +8,7 @@ $(document).ready(function() {
   // Holding cart display.
   var cartContainer = $("#cartContainer");
 
-  var products;
+
 
 
   // Adding to Cart button.
@@ -134,6 +134,7 @@ $(document).ready(function() {
         });
       }
       getCarts();
+      totalUpdate();
   }
 
 
@@ -155,6 +156,7 @@ $(document).ready(function() {
 
       .then(function() {
         getCarts();
+        totalUpdate();
       });
   }
 
@@ -178,12 +180,35 @@ $(document).ready(function() {
       url: "/api/carts",
       data: cart
     })
-  
+      .then(function() {
+        getCarts();
+        totalUpdate();
+      });
+
   }
 
 
 
+  //Total Value and Total quantity Function
 
+ 
+  function totalUpdate() {    
+    $.get("/api/carts", function(data) {
+      cartinfo = data;
+    var totalcart = 0; 
+    for (var i = 0; i < cartinfo.length; i++) {
+      totalcart += (cartinfo[i].price*cartinfo[i].quantity);
+
+      
+    }
+    console.log(totalcart.toFixed(2));
+
+    $("#quantity-display").text('('+cartinfo.length+")  Total: $"+ totalcart.toFixed(2));
+    });
+  }
+
+
+totalUpdate();
 
 
 
@@ -193,9 +218,7 @@ $(document).ready(function() {
 
 
 //----------------------------------------------------------------------------------
-//Do the quantity display
 
-  //$("#quantity-display").text('('+bagid.length+") Items in your Cart" );
 
 
 
@@ -268,29 +291,6 @@ $(document).ready(function() {
       }
     });
 
-
-/*
-  function cartDelete() {
-    var currentCart = $(this)
-      .parent()
-      .data("product");
-    deleteCart(currentCart.id);
-  }
-
-
-
-  // This function does an API call to delete posts
-  function deleteCart(id) {
-    $.ajax({
-      method: "DELETE",
-      url: "/api/carts/" + id
-    })
-
-  }
-
-getCarts();
-
-*/
 
 
 
