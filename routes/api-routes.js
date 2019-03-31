@@ -50,11 +50,54 @@ module.exports = function(app) {
 
 
   app.get("/api/carts", function(req, res) {
-    console.log("KKKKKK")
     db.Carts.findAll({}).then(function(carts) {
       res.json(carts);
     });
   });
+
+
+
+  app.post("/api/carts", function(req, res) {
+    // Add sequelize code for creating a post using req.body,
+    db.Carts.create({
+      sku: req.body.sku,
+      product: req.body.product,
+      price: req.body.price
+      
+    }).then(function(cart) {
+      res.json({ id: cart.id });
+    });
+  });
+
+
+  // DELETE route for deleting posts
+  app.delete("/api/carts/:id", function(req, res) {
+    // Add sequelize code to delete a post where the id is equal to req.params.id,
+    db.Carts.destroy({ where: { id: req.params.id } })
+      // then return the result to the user using res.json
+      .then(function(cart) {
+        res.json(cart);
+      });
+  });
+
+
+
+  app.put("/api/carts", function(req, res) {
+
+    // Update takes in an object describing the properties we want to update, and
+    // we use where to describe which objects we want to update
+    db.Carts.update({
+      quantity: req.body.quantity
+    }, {
+      where: {
+        id: req.body.id
+      }
+    }).then(function(cart) {
+      res.json(cart);
+    });
+
+  });
+
 
 
 

@@ -10,8 +10,17 @@ $(document).ready(function() {
 
   var products;
 
+
   // Adding to Cart button.
-  $(document).on("click", "button.delete", addToCart);
+  $(document).on("click", "button.addcart", addToCart);
+  
+
+  $(document).on("click", "button.delete", cartDelete);
+
+
+
+  $(document).on('change', 'input', changeQuantity);
+
   // This function gets the products from database
   function getProducts() {    
     $.get("/api/products", function(data) {
@@ -20,6 +29,7 @@ $(document).ready(function() {
     });
   }
   getProducts();
+
 
   // Appending all products HTML inside container.
   function initializeRows() {
@@ -56,7 +66,7 @@ $(document).ready(function() {
     //Adding "Add to Cart" button.
     var deleteBtn = $("<button>");
     deleteBtn.text("Add to Cart");
-    deleteBtn.addClass("delete btn btn-info btn-sm");
+    deleteBtn.addClass("addcart btn btn-info btn-sm");
     //Appending "Add to Cart" button.
     newProductCardHeading.append(deleteBtn);
   // Constructing body.
@@ -97,10 +107,12 @@ $(document).ready(function() {
 
 
 
+
   //This function creates the cart.
   //Declaring variables that will hold cart elements.
-  var bag = [];
-  var bagid = [];
+  
+//POST --------------------------------------------------------------------------
+
   //Getting product id
   function addToCart() {
     var currentProduct = $(this)
@@ -108,37 +120,107 @@ $(document).ready(function() {
       .parent()
       .data("product");
     //Adding ids  
-    bag += (currentProduct.id);
-    //Transforming ids in array.
-    bag = Array.from(bag);
-    // Getting products from database.
-    $.get("/api/products", function(data) {
-    //Matching products x bag and pushing to bagid.
-    for (var i = 0; i < bag.length; i++) {
-        for (var j = 0; j < products.length; j++) {
-            if (bag[i] == products[j].id) {
-              bagid.push(products[j].id);
-            }
-        }
-    }
-    //Uninique value function.
-    function onlyUnique(value, index, self) { 
-    return self.indexOf(value) === index;
+
+    var newPost = {
+      sku: currentProduct.id,
+      product: currentProduct.title,
+      price: currentProduct.price
+    };
+
+      submitPost(newPost);
+
+      function submitPost(Post) {
+        $.post("/api/carts/", Post, function() {
+        });
+      }
+      getCarts();
   }
-    //Getting only unique values.
-    bagid = bagid.filter(onlyUnique);
-    //Adding quantity of items.
-    $("#quantity-display").text('('+bagid.length+") Items in your Cart" );
+
+
+  function cartDelete() {
+    var currentCart = $(this)
+      .parent()
+      .data("product");
+    deleteCart(currentCart.id);
+  }
+
+
+
+  // This function does an API call to delete posts
+  function deleteCart(id) {
+    $.ajax({
+      method: "DELETE",
+      url: "/api/carts/" + id
+    })
+
+      .then(function() {
+        getCarts();
+      });
+  }
+
+
+
+  function changeQuantity() {
+    newquantity = (this.value);
+    var currentCart = $(this)
+      .parent()
+      .data("product");
+      console.log(newquantity);
+      console.log(currentCart);
+      currentCart.quantity = newquantity;
+      console.log(currentCart);
+      updateCart(currentCart);
+  }
+
+  function updateCart(cart) {
+    $.ajax({
+      method: "PUT",
+      url: "/api/carts",
+      data: cart
+    })
+  
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------------
+//Do the quantity display
+
+  //$("#quantity-display").text('('+bagid.length+") Items in your Cart" );
+
+
+
+
+  function getCarts() {    
+    $.get("/api/carts", function(data) {
+      products = data;
+      initializeRow();
+    });
+  }
+  getCarts();
+
+  // Appending all products HTML inside container.
+  function initializeRow() {
     cartContainer.empty();
     var productsToAdd = [];
-    //Getting products from bagid.
-    for (var i = 0; i < bagid.length; i++) {
-      productsToAdd.push(createNewRow(products[(bagid[i]-1)]));
+    for (var i = 0; i < products.length; i++) {
+      productsToAdd.push(createNewRowCart(products[i]));
     }
     cartContainer.append(productsToAdd);
+  }
+
 
    // This function constructs cart HTML.
-  function createNewRow(product) {
+  function createNewRowCart(product) {
     var newProductCardBody = $("<div>");
     newProductCardBody.addClass("row");
     newProductCardBody.css({
@@ -150,13 +232,14 @@ $(document).ready(function() {
     //Creating title
     var newProductBodyTitle = $("<div>");
     newProductBodyTitle.addClass("col-md-5");
-    newProductBodyTitle.text(product.title);
+    newProductBodyTitle.text(product.product);
+
     //Creating price
     var newProductBodyPrice = $("<div>");
     newProductBodyPrice.addClass("price col-3");
     newProductBodyPrice.text("$ " + product.price);
     //Creating quantity number.
-    var qtNum = $("<input type='text' style='text-align:center;' name='qtt' value=1>");
+    var qtNum = $("<input type='text' style='text-align:center;' name='qtt' value="+product.quantity+">");
     qtNum.text(product.price);
     qtNum.css({
      "margin-left": "3px",
@@ -166,9 +249,9 @@ $(document).ready(function() {
     });
 
     //Creating button
-    var sumBtn = $("<button>");
+    var sumBtn = $("<button value="+product.id+">");
     sumBtn.text("Delete");
-    sumBtn.addClass("btn btn-danger btn-xs");
+    sumBtn.addClass("delete btn-danger btn-xs");
     sumBtn.css({
      "height": "25px"
     });
@@ -184,14 +267,31 @@ $(document).ready(function() {
     return newProductCardBody;
       }
     });
+
+
+/*
+  function cartDelete() {
+    var currentCart = $(this)
+      .parent()
+      .data("product");
+    deleteCart(currentCart.id);
   }
-});
 
 
-$.get("/api/carts", function(data) {
-    console.log(data);
 
-});
+  // This function does an API call to delete posts
+  function deleteCart(id) {
+    $.ajax({
+      method: "DELETE",
+      url: "/api/carts/" + id
+    })
+
+  }
+
+getCarts();
+
+*/
+
 
 
 
