@@ -26,9 +26,10 @@
     <div id="blackrow" class="row mt-6">
       <div class="col-md-1">
       </div>
-      <div class="col-md-3">
+      <div class = "col-md-6 title">
         <img id = "title-image" src="images/title-image.png"> <h1 id = "title-head">Piece of Cake</h1>
       </div>
+        
     </div>
   <!-- Image Carousel-->
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -72,6 +73,25 @@
           <span class="glyphicon glyphicon-shopping-cart"></span> Shopping Cart
         </button>
       </div>
+
+      <!-- Stripes Payment Method -->
+      <form action="your-server-side-code" method="POST">
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
+          data-amount=""
+          data-name="pieceofcake.com"
+          data-description="Piece of Cake"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto"
+          data-zip-code="true">
+        </script>
+        <script>
+          // Hide default stripe button
+          document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+      </script>
+      <button type="submit" class = "paybutton btn btn-default btn-sm" >Pay with Card</button>
+      </form>
 
     <div class="row">
       <div>

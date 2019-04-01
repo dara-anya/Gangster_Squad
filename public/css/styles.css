@@ -23,7 +23,7 @@ li a {
 }
 
 #blackrow {
-  background-color: black;
+  background-color: purple;
   padding-top: 10px;
 }
 
@@ -53,11 +53,31 @@ li a {
   height:75px; 
   float: left; 
   padding-right: 2%;
+  
 }
 
 #title-head{
   font-family: 'Pacifico', cursive; 
   color: pink; 
   font-size: 36px;
+  
+}
+
+.paybutton{ 
+  position: relative;
+}
+
+@media screen and (max-width: 992px){
+  .paybutton{
+    left: 15px;
+  }
+}
+@media screen and (max-width: 767px){
+  .paybutton{
+    top: 15px;
+  }
+  .title{
+    left: 65px;
+  }
 }
 
