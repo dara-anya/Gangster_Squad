@@ -26,7 +26,6 @@ $(document).ready(function() {
   $(document).on('change', 'input', changeQuantity);
 
 
-
 //--------------------------------------------------------------------
 // BUILDING PRODUCTS DISPLAY -> Getting data from Products database         
 //--------------------------------------------------------------------
@@ -273,6 +272,8 @@ totalUpdate();
     newProductCardBody.append(sumBtn);
     newProductCardBody.data("product", product);
     return newProductCardBody;
+    getCarts();
+    totalUpdate();
       }
     });
 
@@ -290,6 +291,17 @@ totalUpdate();
       x.style.display = "none";
     }
   }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
