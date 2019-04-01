@@ -277,12 +277,13 @@ totalUpdate();
     });
 
 
+$("#cartContainer").css("display", "none");
 
 //--------------------------------------------------------------------
 // OPEN CART DIV -> Shopping Cart button.         
 //--------------------------------------------------------------------
   function showCart() {
-    //$("#cartContainer").css("display", "none");
+    
     var x = document.getElementById("cartContainer");
     if (x.style.display === "none") {
       x.style.display = "block";
