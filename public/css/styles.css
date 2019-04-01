@@ -48,4 +48,16 @@ li a {
   transition-duration: 0.6s;
 }
 
+#title-image{
+  width:75px;
+  height:75px; 
+  float: left; 
+  padding-right: 2%;
+}
+
+#title-head{
+  font-family: 'Pacifico', cursive; 
+  color: pink; 
+  font-size: 36px;
+}
 

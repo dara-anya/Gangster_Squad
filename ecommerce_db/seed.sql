@@ -8,7 +8,4 @@ VALUES
     ("Coconut", 4.75, "/images/Coconut.jpg"), 
     ("Red Velvet", 5.50, "/images/Red-Velvet.jpg"),
 	("Vanilla", 3.25, "/images/Vanilla.jpg"),
-    ("Chocolate Coconut", 5.25, "/images/Chocolate-Coconut.jpg"),
-    ("Cinnamon Cream Cheese", 3.25, "/images/Cinnamon-Cream-Cheese.jpg"),
-    ("Cookies & Cream", 7.25, "/images/Cookies-And-Cream.jpg"),
-    ("Lemon Meringue", 4.75, "/images/Lemon-Meringue.jpg");
+    ("Chocolate Coconut", 5.25, "/images/Chocolate-Coconut.jpg");
