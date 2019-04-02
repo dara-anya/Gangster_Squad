@@ -277,7 +277,9 @@ totalUpdate();
     });
 
 
+
 $("#cartContainer").css("display", "none");
+
 
 //--------------------------------------------------------------------
 // OPEN CART DIV -> Shopping Cart button.         
