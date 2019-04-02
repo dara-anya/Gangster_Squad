@@ -26,6 +26,7 @@ $(document).ready(function() {
   $(document).on('change', 'input', changeQuantity);
 
 
+
 //--------------------------------------------------------------------
 // BUILDING PRODUCTS DISPLAY -> Getting data from Products database         
 //--------------------------------------------------------------------
@@ -272,18 +273,15 @@ totalUpdate();
     newProductCardBody.append(sumBtn);
     newProductCardBody.data("product", product);
     return newProductCardBody;
-    getCarts();
-    totalUpdate();
       }
     });
-
 
 
 //--------------------------------------------------------------------
 // OPEN CART DIV -> Shopping Cart button.         
 //--------------------------------------------------------------------
   function showCart() {
-    //$("#cartContainer").css("display", "none");
+    
     var x = document.getElementById("cartContainer");
     if (x.style.display === "none") {
       x.style.display = "block";
@@ -291,17 +289,6 @@ totalUpdate();
       x.style.display = "none";
     }
   }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
