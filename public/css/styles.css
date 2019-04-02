@@ -22,11 +22,6 @@ li a {
   font-size: 17px;
 }
 
-#blackrow {
-  background-color: purple;
-  padding-top: 10px;
-}
-
 #carousel {
 	margin-bottom: 50px;
 }
@@ -58,8 +53,12 @@ li a {
 
 #title-head{
   font-family: 'Pacifico', cursive; 
-  color: pink; 
+  color: rgb(252, 196, 205); 
   font-size: 36px;
+
+  -webkit-text-stroke: 1px;
+  -webkit-text-stroke-color: rgb(120, 4, 253);
+  letter-spacing: 3px;
   
 }
 
@@ -67,17 +66,27 @@ li a {
   position: relative;
 }
 
-@media screen and (max-width: 992px){
+@media (max-width: 1199px) and (min-width: 991px){
   .paybutton{
-    left: 15px;
+    left: 30px;
   }
 }
-@media screen and (max-width: 767px){
+@media (max-width: 991px) and (min-width: 767px){
   .paybutton{
-    top: 15px;
+    left: 70px;
+  }
+}
+@media (max-width: 767px){
+  .paybutton{
+    top: 10px;
+    left: 15px;
   }
   .title{
     left: 65px;
   }
 }
 
+.btn{
+  background-color: rgb(250, 166, 180);
+  color: rgb(120, 4, 253);
+}
