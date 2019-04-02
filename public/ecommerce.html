@@ -75,6 +75,25 @@
       </div>      
 
 
+      <!-- Stripes Payment Method -->
+      <form action="your-server-side-code" method="POST">
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="pk_test_TYooMQauvdEDq54NiTphI7jx"
+          data-amount=""
+          data-name="pieceofcake.com"
+          data-description="Piece of Cake"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto"
+          data-zip-code="true">
+        </script>
+        <script>
+          // Hide default stripe button
+          document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+      </script>
+      <button type="submit" class = "paybutton btn btn-default btn-sm" >Pay with Card</button>
+      </form>
+
     <div class="row">
       <div>
 
