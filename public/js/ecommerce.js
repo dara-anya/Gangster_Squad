@@ -168,10 +168,7 @@ $(document).ready(function() {
     var currentCart = $(this)
       .parent()
       .data("product");
-      console.log(newquantity);
-      console.log(currentCart);
       currentCart.quantity = newquantity;
-      console.log(currentCart);
       updateCart(currentCart);
   }
 
@@ -200,7 +197,6 @@ $(document).ready(function() {
     for (var i = 0; i < cartinfo.length; i++) {
       totalcart += (cartinfo[i].price*cartinfo[i].quantity);
     }
-    console.log(totalcart.toFixed(2));
 
     $("#quantity-display").text('('+cartinfo.length+")  Total: $"+ totalcart.toFixed(2));
     });
