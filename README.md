@@ -2,12 +2,8 @@
 Project Two
 by Sam Dara and Pedro
 
-The target audience of this application is small business owners who want to improve their merchandising. This application assists in inventory management by allowing for the organization of sale items and purchases. This is done by creating invoices and communicating with the database to store and pull information. 
+Welcome to Lebellum. Lebellum is a application that allows business owners the ability to develope the framework to create an easily accessable website where products can be sold. 
 
-New Technology
+Lebellum uses Node and Express Web Server with a backed by MySQL Database and Sequelize. The Database stores all the product information. The information is retrieved and posted to the webpage using routes. The application is deployed using Heroku and JawsDB.
 
-SmartCalcs API will be used to calculate the sales tax of each item.
-Demo: https://developers.taxjar.com/demo/
-Website: https://www.taxjar.com/api/ 
-
-Passport.js will be used for Login Authentication 
+The Stripe Checkout package is used to provide for a simple and safe checkout.
